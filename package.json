@@ -4,7 +4,8 @@
   "description": "Aplicação avançada de Clean Architecture e TDD com TypeORM, integração com APIs de terceiros - Acompanhamento do curso Rodrigo Manguinho - Udemy",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,8 @@
   },
   "homepage": "https://github.com/brunovilefort/Advanced-Node#readme",
   "devDependencies": {
-    "git-commit-msg-linter": "^4.2.1"
+    "@types/node": "^18.11.9",
+    "git-commit-msg-linter": "^4.2.1",
+    "typescript": "^4.7.4"
   }
 }
