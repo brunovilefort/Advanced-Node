@@ -4,8 +4,10 @@
   "description": "Aplicação avançada de Clean Architecture e TDD com TypeORM, integração com APIs de terceiros - Acompanhamento do curso Rodrigo Manguinho - Udemy",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf dist && tsc"
+    "start": "node -r dotenv/config dist/main",
+    "build": "rimraf dist && tsc -p tsconfig-build.json",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix"
   },
   "repository": {
     "type": "git",
@@ -21,8 +23,14 @@
   "devDependencies": {
     "@types/module-alias": "^2.0.1",
     "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "eslint": "^8.27.0",
+    "eslint-config-standard-with-typescript": "^23.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.5.1",
+    "eslint-plugin-promise": "^6.1.1",
     "git-commit-msg-linter": "^4.2.1",
-    "typescript": "^4.7.4"
+    "typescript": "^4.8.4"
   },
   "dependencies": {
     "module-alias": "^2.2.2",
