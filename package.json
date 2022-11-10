@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/brunovilefort/Advanced-Node/issues"
   },
-  "homepage": "https://github.com/brunovilefort/Advanced-Node#readme"
+  "homepage": "https://github.com/brunovilefort/Advanced-Node#readme",
+  "devDependencies": {
+    "git-commit-msg-linter": "^4.2.1"
+  }
 }
