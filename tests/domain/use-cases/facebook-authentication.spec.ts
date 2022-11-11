@@ -2,6 +2,7 @@ import { LoadFacebookUserApi, TokenGenerator } from '@/domain/contracts/apis'
 import { AuthenticationError } from '@/domain/errors'
 import { FacebookAuthenticationUseCase } from '@/domain/use-cases'
 import { SaveFacebookAccountRepository, LoadUserAccountRepository } from '@/domain/contracts/repos'
+import { AccessToken } from '@/domain/models'
 
 import { mock, MockProxy } from 'jest-mock-extended'
 
@@ -64,7 +65,10 @@ describe('FacebookAuthenticationUseCase', () => {
   it('Should call TokenGenerator with correct params', async (): Promise<void> => {
     await sut.perform({ token })
 
-    expect(crypto.generateToken).toHaveBeenCalledWith({ key: 'any_account_id' })
+    expect(crypto.generateToken).toHaveBeenCalledWith({
+      key: 'any_account_id',
+      expirationInMs: AccessToken.expirationInMs
+    })
     expect(crypto.generateToken).toHaveBeenCalledTimes(1)
   })
 })
