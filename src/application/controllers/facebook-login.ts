@@ -1,4 +1,5 @@
-import { ServerError, HttpResponse } from '@/application/helpers'
+import { ServerError } from '@/application/helpers'
+import { HttpResponse } from '@/application/errors'
 import { FacebookAuthentication } from '@/domain/features'
 import { AccessToken } from '@/domain/models'
 

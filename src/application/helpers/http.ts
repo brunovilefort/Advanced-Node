@@ -5,8 +5,3 @@ export class ServerError extends Error {
     this.stack = error?.stack ?? undefined
   }
 }
-
-export type HttpResponse = {
-  statusCode: number
-  data: any
-}
