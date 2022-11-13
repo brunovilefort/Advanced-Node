@@ -1,12 +1,9 @@
-export class ServerError extends Error {
-  constructor (error?: Error) {
-    super('Server failed. Try again soon')
-    this.name = 'ServerError'
-    this.stack = error?.stack ?? undefined
-  }
-}
-
 export type HttpResponse = {
   statusCode: number
   data: any
 }
+
+export const badRequest = (error: Error): HttpResponse => ({
+  statusCode: 400,
+  data: error
+})
