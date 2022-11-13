@@ -11,10 +11,16 @@ export class FacebookLoginController {
   ) {}
 
   async handle (httpRequest: any): Promise<HttpResponse> {
-    await this.facebookAuthentication.perform({ token: httpRequest.token })
+    if (httpRequest.token === '' || httpRequest.token === undefined || httpRequest.token === null) {
+      return {
+        statusCode: 400,
+        data: new Error('The field token is required')
+      }
+    }
+    const result = await this.facebookAuthentication.perform({ token: httpRequest.token })
     return {
-      statusCode: 400,
-      data: new Error('The field token is required')
+      statusCode: 401,
+      data: result
     }
   }
 }
