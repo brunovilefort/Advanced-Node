@@ -1,11 +1,6 @@
+import { ServerError, HttpResponse } from '@/application/helpers'
 import { FacebookAuthentication } from '@/domain/features'
 import { AccessToken } from '@/domain/models'
-import { ServerError } from '@/application/helpers'
-
-type HttpResponse = {
-  statusCode: number
-  data: any
-}
 
 export class FacebookLoginController {
   constructor (
