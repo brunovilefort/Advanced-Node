@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/brunovilefort/Advanced-Node#readme",
   "devDependencies": {
+    "@jest-mock/express": "^2.0.1",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.14",
     "@types/jest": "^29.2.2",
