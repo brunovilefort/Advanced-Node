@@ -3,11 +3,11 @@ import { AuthenticationError } from '@/domain/errors'
 import { FacebookAuthentication } from '@/domain/features'
 import { AccessToken } from '@/domain/models'
 import { ServerError, UnauthorizedError } from '@/application/errors'
-import { RequiredStringValidator } from '@/application/validations'
+import { RequiredStringValidator, ValidationComposite } from '@/application/validations'
 
 import { MockProxy, mock } from 'jest-mock-extended'
 
-jest.mock('@/application/validations/required-string')
+jest.mock('@/application/validations/composite')
 
 describe('FacebookLoginController', () => {
   let sut: FacebookLoginController
@@ -26,14 +26,16 @@ describe('FacebookLoginController', () => {
 
   it('Should return 400 if validation fails', async () => {
     const error = new Error('validation_error')
-    const RequiredStringValidatorSpy = jest.fn().mockImplementationOnce(() => ({
+    const ValidationCompositeSpy = jest.fn().mockImplementationOnce(() => ({
       validate: jest.fn().mockReturnValueOnce(error)
     }))
-    jest.mocked(RequiredStringValidator).mockImplementationOnce(RequiredStringValidatorSpy)
+    jest.mocked(ValidationComposite).mockImplementationOnce(ValidationCompositeSpy)
 
     const httpResponse = await sut.handle({ token })
 
-    expect(RequiredStringValidator).toHaveBeenLastCalledWith('any_token', 'token')
+    expect(ValidationComposite).toHaveBeenLastCalledWith([
+      new RequiredStringValidator('any_token', 'token')
+    ])
     expect(httpResponse).toEqual({
       statusCode: 400,
       data: error
