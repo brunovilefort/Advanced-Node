@@ -12,7 +12,9 @@ export abstract class Controller {
     if (error !== undefined) return badRequest(error)
     try {
       return await this.perform(httpRequest)
-    } catch (error) { return serverError(error) }
+    } catch (error) {
+      return serverError(error)
+    }
   }
 
   private validate (httpRequest: any): Error | undefined {
