@@ -10,6 +10,10 @@ export class AuthenticationMiddleware {
   async handle ({ authorization }: HttpRequest): Promise<HttpResponse<Error> | undefined> {
     const error = new RequiredStringValidator(authorization, 'authorization').validate()
     if (error !== undefined) return forbidden()
-    await this.authorize({ token: authorization })
+    try {
+      await this.authorize({ token: authorization })
+    } catch {
+      return forbidden()
+    }
   }
 }
