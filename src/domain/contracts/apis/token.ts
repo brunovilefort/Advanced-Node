@@ -12,9 +12,10 @@ export namespace TokenGenerator {
 }
 
 export interface TokenValidador {
-  validateToken: (params: TokenValidador.Params) => Promise<void>
+  validateToken: (params: TokenValidador.Params) => Promise<TokenValidador.Result>
 }
 
 export namespace TokenValidador {
   export type Params = { token: string }
+  export type Result = string
 }
