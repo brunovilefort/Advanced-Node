@@ -13,6 +13,7 @@ describe('Authorize', () => {
   beforeAll(() => {
     token = 'any_token'
     crypto = mock()
+    crypto.validateToken.mockResolvedValue('any_value')
   })
 
   beforeEach(() => {
@@ -23,6 +24,13 @@ describe('Authorize', () => {
     await sut({ token })
 
     expect(crypto.validateToken).toHaveBeenCalledWith({ token })
+    expect(crypto.validateToken).toHaveBeenCalledTimes(1)
+  })
+
+  it('Should return the correct accessToken', async (): Promise<void> => {
+    const userId = await sut({ token })
+
+    expect(userId).toBe('any_value')
     expect(crypto.validateToken).toHaveBeenCalledTimes(1)
   })
 })
