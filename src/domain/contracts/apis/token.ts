@@ -10,3 +10,11 @@ export namespace TokenGenerator {
 
   export type Result = string
 }
+
+export interface TokenValidador {
+  validateToken: (params: TokenValidador.Params) => Promise<void>
+}
+
+export namespace TokenValidador {
+  export type Params = { token: string }
+}
