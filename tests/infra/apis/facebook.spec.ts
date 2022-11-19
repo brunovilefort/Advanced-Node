@@ -3,7 +3,7 @@ import { HttpGetClient } from '@/infra/http'
 
 import { mock, MockProxy } from 'jest-mock-extended'
 
-describe('FacebookApi', () => {
+describe('facebook', () => {
   let clientId: string
   let clientSecret: string
   let httpClient: MockProxy<HttpGetClient>

@@ -5,7 +5,7 @@ import { makeAxiosHttpClient } from '@/main/factories'
 export const makeFacebookApi = (): FacebookApi => {
   return new FacebookApi(
     makeAxiosHttpClient(),
-    env.facebookApi.clientId,
-    env.facebookApi.clientSecret
+    env.facebook.clientId,
+    env.facebook.clientSecret
   )
 }

@@ -1,22 +1,22 @@
-import { FacebookApi } from '@/infra/apis'
+import { Facebook } from '@/infra/gateways'
 import { AxiosHttpClient } from '@/infra/http'
 import { env } from '@/main/config/env'
 
 describe('Facebook Api Integration Tests', () => {
   let axiosClient: AxiosHttpClient
-  let sut: FacebookApi
+  let sut: Facebook
 
   beforeEach(() => {
     axiosClient = new AxiosHttpClient()
-    sut = new FacebookApi(
+    sut = new Facebook(
       axiosClient,
-      env.facebookApi.clientId,
-      env.facebookApi.clientSecret
+      env.facebook.clientId,
+      env.facebook.clientSecret
     )
   })
 
   it('Should return a Facebook User if token is valid', async () => {
-    const fbUser = await sut.loadUser({ token: env.facebookApi.facebookToken })
+    const fbUser = await sut.loadUser({ token: env.facebook.facebookToken })
 
     expect(fbUser).toEqual({
       facebookId: '111238558470795',

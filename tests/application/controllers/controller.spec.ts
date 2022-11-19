@@ -6,13 +6,13 @@ import { ValidationComposite } from '@/application/validations'
 jest.mock('@/application/validations/composite')
 
 class ControllerStub extends Controller {
-  result: HttpResponse = {
+  Output: HttpResponse = {
     statusCode: 200,
     data: 'any_data'
   }
 
   async perform (httpRequest: any): Promise<HttpResponse> {
-    return this.result
+    return this.Output
   }
 }
 
@@ -51,9 +51,9 @@ describe('Controller', () => {
     })
   })
 
-  it('Should return same result of perform', async () => {
+  it('Should return same Output of perform', async () => {
     const httpResponse = await sut.handle('any_value')
 
-    expect(httpResponse).toEqual(sut.result)
+    expect(httpResponse).toEqual(sut.Output)
   })
 })
