@@ -2,11 +2,11 @@ import { LoadFacebookUser, TokenGenerator } from '@/domain/contracts/gateways'
 import { AuthenticationError } from '@/domain/entities/errors'
 import { setupFacebookAuthentication, FacebookAuthentication } from '@/domain/use-cases'
 import { SaveFacebookAccount, LoadUserAccount } from '@/domain/contracts/repos'
-import { AccessToken } from '@/domain/entities'
+import { AccessToken, FacebookAccount } from '@/domain/entities'
 
 import { mock, MockProxy } from 'jest-mock-extended'
 
-jest.mock('@/domain/entities/facebook-account', () => ({ FacebookAccount: jest.fn().mockImplementation(() => ({ any: 'any' })) }))
+jest.mock('@/domain/entities/facebook-account')
 
 describe('FacebookAuthentication', () => {
   let facebook: MockProxy<LoadFacebookUser>
@@ -63,7 +63,7 @@ describe('FacebookAuthentication', () => {
   it('Should call SaveFacebookAccount with FacebookAccount', async (): Promise<void> => {
     await sut({ token })
 
-    expect(userAccountRepo.saveWithFacebook).toHaveBeenCalledWith({ any: 'any' })
+    expect(userAccountRepo.saveWithFacebook).toHaveBeenCalledWith(...jest.mocked(FacebookAccount).mock.instances)
     expect(userAccountRepo.saveWithFacebook).toHaveBeenCalledTimes(1)
   })
 
