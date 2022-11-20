@@ -16,4 +16,11 @@ describe('UUIDHandler', () => {
 
     expect(v4).toHaveBeenCalledTimes(1)
   })
+
+  it('Should return correct uuid', () => {
+    jest.mocked(v4).mockReturnValueOnce('any_uuid')
+    const uuid = sut.uuid({ key: 'any_key' })
+
+    expect(uuid).toBe('any_key_any_uuid')
+  })
 })
