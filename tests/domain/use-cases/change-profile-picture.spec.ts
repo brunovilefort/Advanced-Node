@@ -42,7 +42,7 @@ describe('ChangeProfilePicture', () => {
   it('Should call SaveUserPicture with correct input', async () => {
     await sut({ id: 'any_id', file })
 
-    expect(userProfileRepo.savePicture).toHaveBeenCalledWith({ pictureUrl: 'any_url', initials: undefined })
+    expect(userProfileRepo.savePicture).toHaveBeenCalledWith({ initials: undefined, pictureUrl: 'any_url' })
     expect(userProfileRepo.savePicture).toHaveBeenCalledTimes(1)
   })
 
@@ -53,10 +53,16 @@ describe('ChangeProfilePicture', () => {
     expect(userProfileRepo.savePicture).toHaveBeenCalledTimes(1)
   })
 
-  it('Should call LoadUserProfile with correct input', async () => {
+  it('should call LoadUserProfile with correct input', async () => {
     await sut({ id: 'any_id', file: undefined })
 
     expect(userProfileRepo.load).toHaveBeenCalledWith({ id: 'any_id' })
     expect(userProfileRepo.load).toHaveBeenCalledTimes(1)
+  })
+
+  it('Should not call LoadUserProfile if file exists', async () => {
+    await sut({ id: 'any_id', file })
+
+    expect(userProfileRepo.load).not.toHaveBeenCalled()
   })
 })
