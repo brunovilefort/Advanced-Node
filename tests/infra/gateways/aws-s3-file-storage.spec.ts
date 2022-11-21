@@ -52,4 +52,16 @@ describe('AwsS3FileStorage', () => {
     expect(putObjectSpy).toHaveBeenCalledTimes(1)
     expect(putObjectPromiseSpy).toHaveBeenCalledTimes(1)
   })
+
+  it('Should return imageUrl', async () => {
+    const imageUrl = await sut.upload({ key, file })
+
+    expect(imageUrl).toBe(`https://${bucket}.s3.amazonaws.com/${key}`)
+  })
+
+  it('Should return encoded imageUrl', async () => {
+    const imageUrl = await sut.upload({ key: 'any key', file })
+
+    expect(imageUrl).toBe(`https://${bucket}.s3.amazonaws.com/any%20key`)
+  })
 })
