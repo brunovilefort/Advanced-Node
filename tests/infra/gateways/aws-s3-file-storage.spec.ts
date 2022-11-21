@@ -76,7 +76,7 @@ describe('AwsS3FileStorage', () => {
 
       const promise = sut.upload({ key, file })
 
-      await expect(promise).rejects.toThrow()
+      await expect(promise).rejects.toThrow(error)
     })
   })
 
@@ -99,6 +99,15 @@ describe('AwsS3FileStorage', () => {
       })
       expect(deleteObjectSpy).toHaveBeenCalledTimes(1)
       expect(deleteObjectPromiseSpy).toHaveBeenCalledTimes(1)
+    })
+
+    it('Should rethorow if deleteObject throws', async () => {
+      const error = new Error('delete_error')
+      deleteObjectPromiseSpy.mockRejectedValueOnce(error)
+
+      const promise = sut.delete({ key })
+
+      await expect(promise).rejects.toThrow(error)
     })
   })
 })
