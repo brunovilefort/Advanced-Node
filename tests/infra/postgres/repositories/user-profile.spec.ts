@@ -37,12 +37,18 @@ describe('PgUserProfileRepository', () => {
   })
 
   describe('LoadPicture', () => {
-    it('should load user profile', async () => {
+    it('Should load user profile', async () => {
       const { id } = await pgUserRepo.save({ email: 'any_email', name: 'any_name' })
 
       const userProfile = await sut.load({ id: id.toString() })
 
       expect(userProfile?.name).toBe('any_name')
+    })
+
+    it('Should return undefined', async () => {
+      const userProfile = await sut.load({ id: '1' })
+
+      expect(userProfile).toBe(undefined)
     })
   })
 })
