@@ -9,7 +9,7 @@ describe('SavePictureController', () => {
   })
 
   it('Should return 400 if file is not provided', async () => {
-    const httpResponse = await sut.handle({ file: undefined })
+    const httpResponse = await sut.handle({ file: undefined as any })
 
     expect(httpResponse).toEqual({
       statusCode: 400,
@@ -18,7 +18,16 @@ describe('SavePictureController', () => {
   })
 
   it('Should return 400 if file is not provided', async () => {
-    const httpResponse = await sut.handle({ file: null })
+    const httpResponse = await sut.handle({ file: null as any })
+
+    expect(httpResponse).toEqual({
+      statusCode: 400,
+      data: new RequiredFieldError('file')
+    })
+  })
+
+  it('Should return 400 if file is empty', async () => {
+    const httpResponse = await sut.handle({ file: { buffer: Buffer.from('') } })
 
     expect(httpResponse).toEqual({
       statusCode: 400,
