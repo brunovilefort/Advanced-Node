@@ -50,4 +50,31 @@ describe('SavePictureController', () => {
       data: new InvalidMimeTypeError(['png', 'jpeg'])
     })
   })
+
+  it('Should not return 400 if file type is valid', async () => {
+    const httpResponse = await sut.handle({ file: { buffer, mimeType: 'image/png' } })
+
+    expect(httpResponse).not.toEqual({
+      statusCode: 400,
+      data: new InvalidMimeTypeError(['png', 'jpeg'])
+    })
+  })
+
+  it('Should not return 400 if file type is valid', async () => {
+    const httpResponse = await sut.handle({ file: { buffer, mimeType: 'image/jpg' } })
+
+    expect(httpResponse).not.toEqual({
+      statusCode: 400,
+      data: new InvalidMimeTypeError(['png', 'jpeg'])
+    })
+  })
+
+  it('Should not return 400 if file type is valid', async () => {
+    const httpResponse = await sut.handle({ file: { buffer, mimeType: 'image/jpeg' } })
+
+    expect(httpResponse).not.toEqual({
+      statusCode: 400,
+      data: new InvalidMimeTypeError(['png', 'jpeg'])
+    })
+  })
 })
