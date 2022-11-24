@@ -17,6 +17,7 @@ describe('PgConnection', () => {
   let createConnectionSpy: jest.Mock
   let getConnectionSpy: jest.Mock
   let hasSpy: jest.Mock
+  let closeSpy: jest.Mock
   let sut: PgConnection
 
   beforeAll(() => {
@@ -24,7 +25,8 @@ describe('PgConnection', () => {
     getConnectionManagerSpy = jest.fn().mockReturnValue({ has: hasSpy })
     createQueryRunnerSpy = jest.fn()
     createConnectionSpy = jest.fn().mockResolvedValue({ createQueryRunner: createQueryRunnerSpy })
-    getConnectionSpy = jest.fn().mockReturnValue({ createQueryRunner: createQueryRunnerSpy })
+    closeSpy = jest.fn()
+    getConnectionSpy = jest.fn().mockReturnValue({ createQueryRunner: createQueryRunnerSpy, close: closeSpy })
     jest.mocked(createConnection).mockImplementation(createConnectionSpy)
     jest.mocked(getConnectionManager).mockImplementation(getConnectionManagerSpy)
     jest.mocked(getConnection).mockImplementation(getConnectionSpy)
@@ -58,5 +60,13 @@ describe('PgConnection', () => {
     expect(getConnectionSpy).toHaveBeenCalledTimes(1)
     expect(createQueryRunnerSpy).toHaveBeenCalledWith()
     expect(createQueryRunnerSpy).toHaveBeenCalledTimes(1)
+  })
+
+  it('Should close connection', async () => {
+    await sut.connect()
+    await sut.disconnect()
+
+    expect(closeSpy).toHaveBeenCalledWith()
+    expect(closeSpy).toHaveBeenCalledTimes(1)
   })
 })
