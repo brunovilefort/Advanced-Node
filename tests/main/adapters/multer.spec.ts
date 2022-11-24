@@ -18,17 +18,20 @@ describe('MulterAdapter', () => {
   let sut: RequestHandler
 
   beforeAll(() => {
-    uploadSpy = jest.fn().mockImplementation(() => {})
+    uploadSpy = jest.fn().mockImplementation((req, res, next) => {
+      req.file = { buffer: Buffer.from('any_buffer'), mimeType: 'any_type' }
+      next()
+    })
     singleSpy = jest.fn().mockImplementation(() => uploadSpy)
     multerSpy = jest.fn().mockImplementation(() => ({ single: singleSpy }))
     fakeMulter = multer as jest.Mocked<typeof multer>
     jest.mocked(fakeMulter).mockImplementation(multerSpy)
-    req = getMockReq()
     res = getMockRes().res
     next = getMockRes().next
   })
 
   beforeEach(() => {
+    req = getMockReq({ locals: { anyLocals: 'any_locals' } })
     sut = adaptMulter
   })
 
@@ -43,7 +46,7 @@ describe('MulterAdapter', () => {
     expect(uploadSpy).toHaveBeenCalledTimes(1)
   })
 
-  it('Should return 500 if upload fails', () => {
+  it('should return 500 if upload fails', () => {
     const error = new Error('multer_error')
     uploadSpy.mockImplementationOnce((req, res, next) => {
       next(error)
@@ -52,8 +55,28 @@ describe('MulterAdapter', () => {
     sut(req, res, next)
 
     expect(res.status).toHaveBeenCalledWith(500)
-    expect(multerSpy).toHaveBeenCalledTimes(1)
+    expect(res.status).toHaveBeenCalledTimes(1)
     expect(res.json).toHaveBeenCalledWith({ error: new ServerError(error).message })
     expect(res.json).toHaveBeenCalledTimes(1)
+  })
+
+  it('Should not add file to req.locals', () => {
+    uploadSpy.mockImplementationOnce((req, res, next) => next())
+
+    sut(req, res, next)
+
+    expect(req.locals).toEqual({ anyLocals: 'any_locals' })
+  })
+
+  it('Should add file to req.locals', () => {
+    sut(req, res, next)
+
+    expect(req.locals).toEqual({
+      anyLocals: 'any_locals',
+      file: {
+        buffer: req.file?.buffer,
+        mimeType: req.file?.mimetype
+      }
+    })
   })
 })
