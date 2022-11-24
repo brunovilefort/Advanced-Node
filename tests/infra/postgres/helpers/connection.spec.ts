@@ -1,4 +1,4 @@
-import { PgConnection } from '@/infra/postgres/helpers'
+import { ConnectionNotFoundError, PgConnection } from '@/infra/postgres/helpers'
 
 import { createConnection, getConnection, getConnectionManager } from 'typeorm'
 
@@ -23,7 +23,7 @@ describe('PgConnection', () => {
   beforeAll(() => {
     hasSpy = jest.fn().mockReturnValue(true)
     getConnectionManagerSpy = jest.fn().mockReturnValue({ has: hasSpy })
-    createQueryRunnerSpy = jest.fn()
+    createQueryRunnerSpy = jest.fn().mockReturnValue({})
     createConnectionSpy = jest.fn().mockResolvedValue({ createQueryRunner: createQueryRunnerSpy })
     closeSpy = jest.fn()
     getConnectionSpy = jest.fn().mockReturnValue({ createQueryRunner: createQueryRunnerSpy, close: closeSpy })
@@ -68,5 +68,12 @@ describe('PgConnection', () => {
 
     expect(closeSpy).toHaveBeenCalledWith()
     expect(closeSpy).toHaveBeenCalledTimes(1)
+  })
+
+  it('Should return ConnectionNotFoundError on disconnect if connection is not found', async () => {
+    const promise = sut.disconnect()
+
+    expect(closeSpy).not.toHaveBeenCalled()
+    await expect(promise).rejects.toThrow(new ConnectionNotFoundError())
   })
 })
