@@ -1,3 +1,5 @@
+import { ConnectionNotFoundError } from '@/infra/postgres/helpers'
+
 import { createConnection, getConnectionManager, getConnection, QueryRunner } from 'typeorm'
 
 export class PgConnection {
@@ -19,6 +21,7 @@ export class PgConnection {
   }
 
   async disconnect (): Promise<void> {
+    if (this.query === undefined) throw new ConnectionNotFoundError()
     await getConnection().close()
     this.query = undefined
   }
