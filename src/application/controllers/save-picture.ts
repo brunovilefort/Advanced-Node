@@ -1,7 +1,7 @@
-import { HttpResponse, success } from '@/application/helpers'
-import { ChangeProfilePicture } from '@/domain/use-cases'
 import { Controller } from '@/application/controllers'
-import { Validator, ValidationBuilder as Builder } from '@/application/validations'
+import { HttpResponse, success } from '@/application/helpers'
+import { ValidationBuilder as Builder, Validator } from '@/application/validations'
+import { ChangeProfilePicture } from '@/domain/use-cases'
 
 type HttpRequest = { file?: { buffer: Buffer, mimeType: string }, userId: string }
 type Model = { initials?: string, pictureUrl?: string }
@@ -19,10 +19,7 @@ export class SavePictureController extends Controller {
   override buildValidators ({ file }: any): Validator[] {
     if (file === undefined) return []
     return [
-      ...Builder.of({ value: file, fieldName: 'file' })
-        .required()
-        .image({ allowed: ['png', 'jpg'], maxSizeInMb: 5 })
-        .build()
+      ...Builder.of({ value: file, fieldName: 'file' }).required().image({ allowed: ['png', 'jpg'], maxSizeInMb: 5 }).build()
     ]
   }
 }

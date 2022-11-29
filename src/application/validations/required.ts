@@ -8,9 +8,7 @@ export class Required implements Validator {
   ) {}
 
   validate (): Error | undefined {
-    if (this.value === undefined || this.value === null) {
-      return new RequiredFieldError(this.fieldName)
-    }
+    if (this.value === null || this.value === undefined) return new RequiredFieldError(this.fieldName)
   }
 }
 
@@ -22,10 +20,8 @@ export class RequiredString extends Required {
     super(value, fieldName)
   }
 
-  validate (): Error | undefined {
-    if (super.validate() !== undefined || this.value === '') {
-      return new RequiredFieldError(this.fieldName)
-    }
+  override validate (): Error | undefined {
+    if (super.validate() !== undefined || this.value === '') return new RequiredFieldError(this.fieldName)
   }
 }
 
@@ -37,9 +33,7 @@ export class RequiredBuffer extends Required {
     super(value, fieldName)
   }
 
-  validate (): Error | undefined {
-    if (super.validate() !== undefined || this.value.length === 0) {
-      return new RequiredFieldError(this.fieldName)
-    }
+  override validate (): Error | undefined {
+    if (super.validate() !== undefined || this.value.length === 0) return new RequiredFieldError(this.fieldName)
   }
 }

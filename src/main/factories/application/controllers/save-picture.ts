@@ -1,6 +1,7 @@
-import { SavePictureController } from '@/application/controllers'
-import { makeChangeProfilePicture } from '@/main/factories'
+import { makeChangeProfilePicture, makePgTransactionController } from '@/main/factories'
+import { SavePictureController, Controller } from '@/application/controllers'
 
-export const makeSavePictureController = (): SavePictureController => {
-  return new SavePictureController(makeChangeProfilePicture())
+export const makeSavePictureController = (): Controller => {
+  const controller = new SavePictureController(makeChangeProfilePicture())
+  return makePgTransactionController(controller)
 }

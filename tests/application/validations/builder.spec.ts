@@ -10,7 +10,7 @@ describe('ValidationBuilder', () => {
     expect(validators).toEqual([new RequiredString('any_value')])
   })
 
-  it('Shoult return RequiredBuffer', () => {
+  it('should return RequiredBuffer', () => {
     const buffer = Buffer.from('any_buffer')
 
     const validators = ValidationBuilder

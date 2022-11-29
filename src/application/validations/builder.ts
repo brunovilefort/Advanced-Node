@@ -1,4 +1,4 @@
-import { AllowedMimeTypes, Extension, MaxFileSize, Required, RequiredBuffer, RequiredString, Validator } from '@/application/validations'
+import { Validator, AllowedMimeTypes, Extension, MaxFileSize, Required, RequiredBuffer, RequiredString } from '@/application/validations'
 
 export class ValidationBuilder {
   private constructor (
@@ -7,8 +7,8 @@ export class ValidationBuilder {
     private readonly validators: Validator[] = []
   ) {}
 
-  static of (Input: { value: any, fieldName?: string }): ValidationBuilder {
-    return new ValidationBuilder(Input.value, Input.fieldName)
+  static of ({ value, fieldName }: { value: any, fieldName?: string }): ValidationBuilder {
+    return new ValidationBuilder(value, fieldName)
   }
 
   required (): ValidationBuilder {
@@ -16,7 +16,7 @@ export class ValidationBuilder {
       this.validators.push(new RequiredBuffer(this.value, this.fieldName))
     } else if (typeof this.value === 'string') {
       this.validators.push(new RequiredString(this.value, this.fieldName))
-    } else if (typeof this.value === 'object') {
+    } else {
       this.validators.push(new Required(this.value, this.fieldName))
       if (this.value.buffer !== undefined) {
         this.validators.push(new RequiredBuffer(this.value.buffer, this.fieldName))

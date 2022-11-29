@@ -1,6 +1,6 @@
+import { Middleware } from '@/application/middlewares'
 import { forbidden, HttpResponse, success } from '@/application/helpers'
 import { RequiredString } from '@/application/validations'
-import { Middleware } from '@/application/middlewares'
 
 type HttpRequest = { authorization: string }
 type Model = Error | { userId: string }
@@ -14,9 +14,7 @@ export class AuthenticationMiddleware implements Middleware {
     try {
       const userId = await this.authorize({ token: authorization })
       return success({ userId })
-    } catch {
-      return forbidden()
-    }
+    } catch { return forbidden() }
   }
 
   private validate ({ authorization }: HttpRequest): boolean {

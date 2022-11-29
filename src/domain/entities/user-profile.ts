@@ -9,9 +9,9 @@ export class UserProfile {
     if (pictureUrl === undefined && name !== undefined && name !== '') {
       const firstLetters = name.match(/\b(.)/g)!
       if (firstLetters.length > 1) {
-        this.initials = `${firstLetters.shift()!.toUpperCase() ?? ''}${firstLetters.pop()!.toUpperCase() ?? ''}`
+        this.initials = `${firstLetters.shift()!.toUpperCase()}${firstLetters.pop()!.toUpperCase()}`
       } else {
-        this.initials = name.substring(0, 2)!.toUpperCase()
+        this.initials = name.substring(0, 2)?.toUpperCase()
       }
     }
   }

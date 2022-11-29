@@ -1,7 +1,7 @@
+import { makeJwtTokenHandler } from '@/main/factories'
 import { AuthenticationMiddleware } from '@/application/middlewares'
-import { makeJwtTokenGenerator } from '@/main/factories'
 
 export const makeAuthenticationMiddleware = (): AuthenticationMiddleware => {
-  const jwt = makeJwtTokenGenerator()
+  const jwt = makeJwtTokenHandler()
   return new AuthenticationMiddleware(jwt.validate.bind(jwt))
 }

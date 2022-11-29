@@ -1,25 +1,28 @@
 import { PgUser } from '@/infra/postgres/entities'
 import { app } from '@/main/config/app'
 import { makeFakeDb } from '@/tests/infra/postgres/mocks'
+import { PgConnection } from '@/infra/postgres/helpers'
 import { env } from '@/main/config'
 
 import { IBackup } from 'pg-mem'
-import { getConnection, getRepository, Repository } from 'typeorm'
+import { Repository } from 'typeorm'
 import { sign } from 'jsonwebtoken'
 import request from 'supertest'
 
 describe('User Routes', () => {
   let backup: IBackup
+  let connection: PgConnection
   let pgUserRepo: Repository<PgUser>
 
   beforeAll(async () => {
+    connection = PgConnection.getInstance()
     const db = await makeFakeDb([PgUser])
     backup = db.backup()
-    pgUserRepo = getRepository(PgUser)
+    pgUserRepo = connection.getRepository(PgUser)
   })
 
   afterAll(async () => {
-    await getConnection().close()
+    await connection.disconnect()
   })
 
   beforeEach(() => {

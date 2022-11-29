@@ -1,6 +1,6 @@
-import { env } from '@/main/config'
+import { env } from '@/main/config/env'
 import { JwtTokenHandler } from '@/infra/gateways'
 
-export const makeJwtTokenGenerator = (): JwtTokenHandler => {
+export const makeJwtTokenHandler = (): JwtTokenHandler => {
   return new JwtTokenHandler(env.jwtSecret)
 }
