@@ -37,14 +37,9 @@ describe('SavePictureController', () => {
   })
 
   it('Should build Validators correctly on delete', async () => {
-    const validators = sut.buildValidators({ file, userId })
+    const validators = sut.buildValidators({ file: undefined, userId })
 
-    expect(validators).toEqual([
-      new Required(file, 'file'),
-      new RequiredBuffer(buffer, 'file'),
-      new AllowedMimeTypes(['png', 'jpg'], mimeType),
-      new MaxFileSize(5, buffer)
-    ])
+    expect(validators).toEqual([])
   })
 
   it('Should call ChangeProfilePicture with correct input', async () => {

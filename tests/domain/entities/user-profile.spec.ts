@@ -6,6 +6,7 @@ describe('UserProfile', () => {
   beforeEach(() => {
     sut = new UserProfile('any_id')
   })
+
   it('Should create with empty initials when pictureUrl is provided', () => {
     sut.setPicture({ pictureUrl: 'any_url', name: 'any_name' })
 
